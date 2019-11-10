@@ -208,6 +208,10 @@ class Blockchain {
      * 2. Each Block should check the with the previousBlockHash
      */
     validateChain() {
+        /* according to received feedback, the function `validateChain` needs to be declared async 
+         so that it would return a promise. I don't believe this is needed. Like in `getChainHeight`, 
+         there is no await in `validateChain`, hence no async.
+        */ 
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
@@ -217,14 +221,14 @@ class Blockchain {
                     if (!blockIsValid) {
                         errorLog.push({
                             block: el,
-                            error: "Block hash doesn't match the expect value."
+                            error: "Invalid block"
                         })
                     }
 
                     if (el.height !== 0 && el.previousBlockHash !== self.chain[i-1].hash) {
                         errorLog.push({
                             block: el,
-                            error: "Block's previous block hash value is incorrect."
+                            error: "PreviousBlockHash is incorrect"
                         })
                     }
                 });
